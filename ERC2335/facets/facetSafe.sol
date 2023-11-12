@@ -3,6 +3,7 @@ pragma solidity ^0.8.19;
 import 'imports/openzeppelin/utils/Context.sol';
 import 'ERC2335/facets/storage/storageSafe.sol';
 import 'ERC2335/facets/storage/storageAdmin.sol';
+import 'ERC2335/facets/storage/storagePausable.sol';
 import 'imports/openzeppelin/token/ERC20/extensions/IERC20Metadata.sol';
 import 'imports/openzeppelin/utils/structs/EnumerableSet.sol';
 
@@ -13,7 +14,7 @@ import 'imports/openzeppelin/utils/structs/EnumerableSet.sol';
 *
 * NOTE address(0) is eth.
  */
-contract facetSafe is Context, storageSafe, storageAdmin {
+contract facetSafe is Context, storageSafe, storageAdmin, storagePausable {
     using EnumerableSet for EnumerableSet.AddressSet;
 
     event Deposited(address indexed from, address indexed tokenIn, uint indexed amountIn);
@@ -46,13 +47,13 @@ contract facetSafe is Context, storageSafe, storageAdmin {
         return safe().onHand.values();
     }
 
-    function allowTokenIntoSafe(address token) public virtual {
+    function allowTokenInToSafe(address token) public virtual {
         require(_msgSender() == admin().admin, 'facetSafe: only admin');
         safe().allowedIn.add(token);
         emit TokenInPermissionGranted(token);
     }
 
-    function forbidTokenIntoSafe(address token) public virtual {
+    function forbidTokenInToSafe(address token) public virtual {
         require(_msgSender() == admin().admin, 'facetSafe: only admin');
         safe().allowedIn.remove(token);
         emit TokenInPermissionRevoked(token);
@@ -74,19 +75,8 @@ contract facetSafe is Context, storageSafe, storageAdmin {
         _deposit(tokenIn, amountIn);
     }
 
-    function deposit() nonReentrant() external virtual {
-        _deposit();
-    }
-
-    function withdraw(address to, address tokenOut, uint amountOut) nonReentrant() external virtual {
-        _withdraw(to, tokenOut, amountOut);
-    }
-
-    function withdraw(address to, uint amountOut) nonReentrant() external virtual {
-        _withdraw(to, amountOut);
-    }
-
     function _deposit(address tokenIn, uint amountIn) private virtual {
+        require(!pausable().paused, 'facetSafe: paused');
         require(safe().allowedIn.contains(tokenIn), 'facetSafe: token is not allowed in');
         IERC20Metadata token = IERC20Metadata(tokenIn);
         require(token.balanceOf(_msgSender()) >= amountIn, 'facetSafe: insufficient balance');
@@ -96,12 +86,21 @@ contract facetSafe is Context, storageSafe, storageAdmin {
         emit Deposited(_msgSender(), tokenIn, amountIn);
     }
 
+    function deposit() nonReentrant() external virtual {
+        _deposit();
+    }
+
     function _deposit() private payable virtual {
+        require(!pausable().paused, 'facetSafe: paused');
         require(safe().allowedIn.contains(address(0)), 'facetSafe: eth is not allowed in');
         require(msg.value >= 1, 'facetSafe: insufficient amount in');
         safe().amounts[address(0)] += msg.value;
         safe().onHand.add(address(0));
         emit Deposited(_msgSender(), address(0), msg.value);
+    }
+
+    function withdraw(address to, address tokenOut, uint amountOut) nonReentrant() external virtual {
+        _withdraw(to, tokenOut, amountOut);
     }
 
     function _withdraw(address to, address tokenOut, uint amountOut) private virtual {
@@ -115,6 +114,10 @@ contract facetSafe is Context, storageSafe, storageAdmin {
         }
         token.transfer(to, amountOut);
         emit Withdrawn(to, tokenOut, amountOut);
+    }
+
+    function withdraw(address to, uint amountOut) nonReentrant() external virtual {
+        _withdraw(to, amountOut);
     }
 
     function _withdraw(address to, uint amountOut) private virtual {
