@@ -10,6 +10,8 @@ import 'ERC2335/facets/storage/storageToken.sol';
 contract facetToken is Context, storageToken, storageAdmin, storagePausable, IERC20Metadata {
     using EnumerableSet for EnumerableSet.AddressSet;
 
+    event Snapshot(uint id);
+
     function name() public view virtual override returns (string memory) {
         return token().name;
     }
@@ -32,6 +34,10 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
 
     function allowance(address owner_, address spender) public view virtual override returns (uint) {
         return token().allowances[owner_][spender];
+    }
+
+    function getCurrentSnapshotId() public view virtual returns (uint) {
+        return token().currentSnapshotId.current();
     }
 
     /// To be set just after deployment.
@@ -199,6 +205,23 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         }
     }
 
+    function wrapToken(uint amount) public virtual {
+        if (token().enabledTokenWrapper) {
+            IERC20Metadata tokenIn = IERC20Metadata(token().wrappableTokenIn);
+            tokenIn.transferFrom(_msgSender(), address(this), amount);
+            uint amountOut = amount * token().wrapperRate;
+            _mint(_msgSender(), amountOut);
+        }
+    }
+
+    function unwrapToken(uint amount) public virtual {
+        if (token().enabledTokenWrapper) {
+            _burn(_msgSender(), amount);
+            IERC20Metadata tokenOut = IERC20Metadata(token().wrappableTokenIn);
+            tokenOut.transfer(_msgSender(), amount / token().wrapperRate);
+        }
+    }
+
     function transfer(address to, uint amount) public virtual override returns (bool) {
         if (token().enabledAdminMarketMaker) {
             revert('facetToken: admin market making enabled');
@@ -235,6 +258,13 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
             _approve(owner_, spender, currentAllowance - subtractedValue);
         }
         return true;
+    }
+
+    function _snapshot() internal virtual returns (uint) {
+        token().currentSnapshotId.increment();
+        uint currentId = getCurrentSnapshotId();
+        emit Snapshot(currentId);
+        return currentId;
     }
 
     function _transfer(address from, address to, uint amount) internal virtual {
@@ -322,6 +352,17 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         if (token().enabledBlacklist) { /// Forbid certain accounts to transfer and receive the token.
             require(!token().blacklist.contains(from), 'facetToken: from is blacklisted');
             require(!token().blacklist.contains(to), 'facetToken: to is blacklisted');
+        }
+        /// Tracks holders of the token onchain.
+        if (balanceOf(from) >= 1) {
+            token().holders.add(from);
+        } else {
+            token().holders.remove(from);
+        }
+        if (balanceOf(to) >= 1) {
+            token().holders.add(to);
+        } else {
+            token().holders.remove(to);
         }
     }
 

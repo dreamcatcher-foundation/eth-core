@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 import 'imports/openzeppelin/utils/structs/EnumerableSet.sol';
+import 'imports/openzeppelin/utils/Arrays.sol';
+import 'imports/openzeppelin/utils/Counters.sol';
 
 contract storageToken {
     using EnumerableSet for EnumerableSet.AddressSet;
+    using Arrays for uint[];
+    using Counters for Counters.Counter;
 
     bytes32 internal constant _TOKEN = keccak256('facet.token');
 
@@ -32,6 +36,14 @@ contract storageToken {
         bool enabledAdminMarketMaker;
         bool enabledPausable;
         bool enabledTokenWrapper;
+        mapping(address => Snapshots) accountBalanceSnapshots;
+        Snapshots totalSupplySnapshots;
+        Counters.Counter currentSnapshotId;
+    }
+
+    struct Snapshots {
+        uint[] ids;
+        uint[] values;
     }
 
     function token() internal pure virtual returns (StorageToken storage s) {
