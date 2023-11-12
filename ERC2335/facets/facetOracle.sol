@@ -13,16 +13,23 @@ contract facetOracle is Context, storageOracle, storageAdmin {
     event TokenChainlinkPriceFeedChanged(address indexed token, address indexed oldPriceFeed, address indexed newPriceFeed);
 
     function getChainlinkLatestAnswerFor(address token) public view virtual returns (uint) {
-        return IEACAggregatorProxy(getChainlinkPriceFeed(token)).latestAnswer();
+        if (getChainlinkPriceFeed(token) != address(0)) {
+            return IEACAggregatorProxy(getChainlinkPriceFeed(token)).latestAnswer();
+        } else {
+            return 0;
+        }
     }
 
     function getChainlinkLatestTimestamp(address token) public view virtual returns (uint) {
-        return IEACAggregatorProxy(getChainlinkPriceFeed(token)).latestTimestamp();
+        if (getChainlinkPriceFeed(token) != address(0)) {
+            return IEACAggregatorProxy(getChainlinkPriceFeed(token)).latestTimestamp();
+        } else {
+            return 0;
+        }
     }
 
     function getChainlinkPriceFeed(address token) public view virtual returns (address) {
         address chainlinkPriceFeed = oracle().tokenToChainlinkPriceFeed[token];
-        require(chainlinkPriceFeed != address(0), 'facetOracle: unassigned price feed');
         return chainlinkPriceFeed;
     }
 
