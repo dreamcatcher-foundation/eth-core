@@ -30,4 +30,6 @@ contract facetAccounting is Context, storageAdmin, storageOracle, storageSafe {
             }
         }
     }
+
+    function totalAssetsPerShare();
 }

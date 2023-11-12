@@ -19,7 +19,9 @@ contract storageToken {
         EnumerableSet.AddressSet blacklist;
         EnumerableSet.AddressSet holders;
         uint feeTransfer;
+        uint wrapperRate;
         address feeTransferTo;
+        address wrappableTokenIn;
         bool enabledCapped;
         bool enabledSoulBound;
         bool enabledWhitelist;
@@ -27,29 +29,9 @@ contract storageToken {
         bool enabledTransferFee;
         bool enabledSnapshot;
         bool enabledBurnable;
-        bool enabledFlashMint;
-        bool enabledOnlyAdminTransferer;
-        uint feeFlashMint;
-        address feeFlashMintTo;
-
-        /// This token can be paused by the the admin.
-        /// Requires storagePausable and facetPausable.
+        bool enabledAdminMarketMaker;
         bool enabledPausable;
-        
-        /// Allow the contract to accept an address of a token,
-        /// wrap it, and mint these custum tokens. These can then be
-        /// unwrapped when they are returned to this contract.
         bool enabledTokenWrapper;
-        address wrappableTokenIn;
-        uint rate; /// In: 1 > Out: ?
-
-        /// 
-        bool enabledFaucet;
-    }
-
-    struct StorageTokenAccount {
-        uint maxSize;
-        uint minSize;
     }
 
     function token() internal pure virtual returns (StorageToken storage s) {
