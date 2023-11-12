@@ -28,8 +28,18 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         return token().totalSupply;
     }
 
+    function totalSupplyAt(uint snapshotId) public view virtual returns (uint) {
+        (bool snapshotted, uint value) = _valueAt(snapshotId, token().totalSupplySnapshots);
+        return snapshotted ? value : totalSupply();
+    }
+
     function balanceOf(address account) public view virtual override returns (uint) {
         return token().balances[account];
+    }
+
+    function balanceOfAt(address account, uint snapshotId) public view virtual returns (uint) {
+        (bool snapshotted, uint value) = _valueAt(snapshotId, token().accountBalanceSnapshots[account]);
+        return snapshotted ? value : balanceOf(account);
     }
 
     function allowance(address owner_, address spender) public view virtual override returns (uint) {
@@ -83,6 +93,8 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         token().feeTransferTo = account;
     }
 
+    /// If the whitelist is enabled then only whitelisted
+    /// accounts will be able to receive and send the tokens.
     function addToWhitelist(address account) public virtual {
         if (token().enabledWhitelist) {
             require(_msgSender() == admin().admin, 'facetToken: only admin');
@@ -92,6 +104,8 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         }
     }
 
+    /// If the whitelist is enabled then only whitelisted
+    /// accounts will be able to receive and send the tokens.
     function removeFromWhitelist(address account) public virtual {
         if (token().enabledWhitelist) {
             require(_msgSender() == admin().admin, 'facetToken: only admin');
@@ -101,6 +115,11 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         }
     }
 
+    /// If the blacklist is enabled then blacklisted accounts
+    /// will not be allowed to receive or sent the tokens.
+    /// This can stack with the whitelist, an account that is
+    /// whitelisted and blacklisted will not be able to
+    /// receive or send the tokens.
     function addToBlacklist(address account) public virtual {
         if (token().enabledBlacklist) {
             require(_msgSender() == admin().admin, 'facetToken: only admin');
@@ -110,6 +129,11 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         }
     }
 
+    /// If the blacklist is enabled then blacklisted accounts
+    /// will not be allowed to receive or sent the tokens.
+    /// This can stack with the whitelist, an account that is
+    /// whitelisted and blacklisted will not be able to
+    /// receive or send the tokens.
     function removeFromBlacklist(address account) public virtual {
         if (token().enabledBlacklist) {
             require(_msgSender() == admin().admin, 'facetToken: only admin');
@@ -188,7 +212,52 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         token().enabledTokenWrapper = true;
     }
 
+    /// OPTIONAL To be set just after deployment.
+    function enableForges() public virtual {
+        require(_msgSender() == admin().admin, 'facetToken: only admin');
+        token().enabledForges = true;
+    }
+
+    /// If settings enabled specific addresses will be able to
+    /// mint the token. The reasons for this is if there may be
+    /// external logic or an external staking contract.
+    function mint(address to, uint amount) public virtual {
+        require(!pausable().paused, 'facetToken: paused');
+        /// The settings must be enabled and the caller must be
+        /// from a forge account.
+        if (token().enabledForges) {
+            if (token().minters.contains(_msgSender())) {
+                _mint(to, amount);
+            }
+        }
+    }
+
+    /// If settings enabled allow burning.
+    function burn(uint amount) public virtual {
+        require(!pausable().paused, 'facetToken: paused');
+        /// Must have enabled token burnable settings and
+        /// cannot be a wrapper. The unwrapping function will
+        /// contain the burn function which returns the wrapped
+        /// tokens.
+        if (token().enabledBurnable) {
+            if (!token().enabledTokenWrapper) {
+                _burn(_msgSender(), amount);
+            } else {
+                revert('facetToken: wrapper is enabled');
+            }
+        } else {
+            revert('facetToken: burn is disabled');
+        }
+    }
+
+    /// Anyone can create a unique snapshot of the token.
+    function snapshot() public virtual returns (uint) {
+        require(!pausable().paused, 'facetToken: paused');
+        return _snapshot();
+    }
+
     function approve(address spender, uint amount) public virtual override returns (bool) {
+        require(!pausable().paused, 'facetToken: paused');
         address owner = _msgSender();
         _approve(owner_, spender, amount);
         return true;
@@ -206,51 +275,79 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
     }
 
     function wrapToken(uint amount) public virtual {
+        require(!pausable().paused, 'facetToken: paused');
         if (token().enabledTokenWrapper) {
             IERC20Metadata tokenIn = IERC20Metadata(token().wrappableTokenIn);
             tokenIn.transferFrom(_msgSender(), address(this), amount);
             uint amountOut = amount * token().wrapperRate;
             _mint(_msgSender(), amountOut);
+        } else {
+            revert('facetToken: wrapper is disabled');
         }
     }
 
     function unwrapToken(uint amount) public virtual {
+        require(!pausable().paused, 'facetToken: paused');
         if (token().enabledTokenWrapper) {
             _burn(_msgSender(), amount);
             IERC20Metadata tokenOut = IERC20Metadata(token().wrappableTokenIn);
             tokenOut.transfer(_msgSender(), amount / token().wrapperRate);
+        } else {
+            revert('facetToken: wrapper is disabled');
         }
     }
 
     function transfer(address to, uint amount) public virtual override returns (bool) {
-        if (token().enabledAdminMarketMaker) {
+        require(!pausable().paused, 'facetToken: paused');
+        if (!token().enabledAdminMarketMaker) {
+            if (!token().enabledSoulBound) {
+                address owner_ = _msgSender();
+                _transfer(owner_, to, amount);
+                return true;
+            } else {
+                revert('facetToken: transfer disabled');
+            }
+        } else {
+            /// The admin is the only account that can transfer on
+            /// behalf of the users.
             revert('facetToken: admin market making enabled');
         }
-        address owner_ = _msgSender();
-        _transfer(owner_, to, amount);
-        return true;
     }
 
     function transferFrom(address from, address to, uint amount) public virtual override returns (bool) {
-        if (token().enabledAdminMarketMaker) {
+        require(!pausable().paused, 'facetToken: paused');
+        if (!token().enabledAdminMarketMaker) {
+            if (!token().enabledSoulBound) {
+                address spender = _msgSender();
+                _spendAllowance(from, spender, amount);
+                _transfer(from, to, amount);
+                return true;
+            } else {
+                revert('facetToken: transfer disabled');
+            }
+        } else {
+            /// The admin is the only account that can transfer on
+            /// behalf of the users.
             revert('facetToken: admin market making enabled');
         }
-        address spender = _msgSender();
-        _spendAllowance(from, spender, amount);
-        _transfer(from, to, amount);
-        return true;
     }
 
     function increaseAllowance(address spender, uint addedValue) public virtual returns (bool) {
-        if (token().enabledAdminMarketMaker) {
+        require(!pausable().paused, 'facetToken: paused');
+        if (!token().enabledAdminMarketMaker) {
+            address owner = _msgSender();
+            _approve(owner_, spender, allowance(owner_, spender) + addedValue);
+            return true;
+        } else {
+            /// The admin is the only account that can transfer on
+            /// behalf of the users.
             revert('facetToken: admin market making enabled');
         }
-        address owner = _msgSender();
-        _approve(owner_, spender, allowance(owner_, spender) + addedValue);
-        return true;
     }
 
+    /// Decrease allowance is available always.
     function decreaseAllowance(address spender, uint subtractedValue) public virtual returns (bool) {
+        require(!pausable().paused, 'facetToken: paused');
         address owner_ = _msgSender();
         uint currentAllowance = allowance(owner_, spender);
         require(currentAllowance >= subtractedValue, 'facetToken: decreased allowance below zero');
@@ -261,14 +358,17 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
     }
 
     function _snapshot() internal virtual returns (uint) {
-        token().currentSnapshotId.increment();
-        uint currentId = getCurrentSnapshotId();
-        emit Snapshot(currentId);
-        return currentId;
+        if (token().enabledSnapshot) {
+            token().currentSnapshotId.increment();
+            uint currentId = getCurrentSnapshotId();
+            emit Snapshot(currentId);
+            return currentId;
+        } else {
+            revert('facetToken: snapshot disabled');
+        }
     }
 
     function _transfer(address from, address to, uint amount) internal virtual {
-        require(!pausable().paused, 'facetToken: paused');
         if (token().enabledSoulBound) {
             revert('facetToken: is soul bound');
         }
@@ -297,7 +397,6 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
     }
 
     function _mint(address account, uint amount) internal virtual {
-        require(!pausable().paused, 'facetToken: paused');
         if (token().enabledCapped) { /// If cap is enabled enforce.
             require(totalSupply() + amount <= token().maxSupply, 'facetToken: is at cap');
         }
@@ -312,7 +411,6 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
     }
 
     function _burn(address account, uint amount) internal virtual {
-        require(!pausable().paused, 'facetToken: paused');
         require(account != address(0), 'facetToken: burn from the zero address');
         _beforeTokenTransfer(account, address(0), amount);
         uint accountBalance = token().balances[account];
@@ -326,7 +424,6 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
     }
 
     function _spendAllowance(address owner_, address spender, uint amount) internal virtual {
-        require(!pausable().paused, 'facetToken: paused');
         uint currentAllowance = allowance(owner_, spender);
         if (currentAllowance != type(uint).max) {
             require(currentAllowance >= amount, 'facetToken: insufficient allowance');
@@ -341,7 +438,7 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         require(owner_ != address(0), 'facetToken: approve from the zero address');
         require(spender != address(0), 'facetToken: approve to the zero address');
         token().allowances[owner_][spender] = amount;
-        emit Approval(owner_, spender, value);
+        emit Approval(owner_, spender, amount);
     }
 
     function _beforeTokenTransfer(address from, address to, uint amount) internal virtual {
@@ -364,9 +461,67 @@ contract facetToken is Context, storageToken, storageAdmin, storagePausable, IER
         } else {
             token().holders.remove(to);
         }
+        if (token().enabledSnapshot) {
+            if (from == address(0)) {
+                _updateAccountSnapshot(to);
+                _updateTotalSupplySnapshot();
+            } else if (to == address(0)) {
+                _updateAccountSnapshot(from);
+                _updateTotalSupplySnapshot();
+            } else {
+                _updateAccountSnapshot(from);
+                _updateAccountSnapshot(to);
+            }
+        }
     }
 
-    function _afterTokenTransfer(address from, address to, uint amount) internal virtual {
+    function _afterTokenTransfer(address from, address to, uint amount) internal virtual {}
 
+    function _valueAt(uint snapshotId, Snapshots storage snapshots) private view returns (bool, uint) {
+        require(snapshotId > 0, 'facetToken: id is 0');
+        require(snapshotId <= getCurrentSnapshotId(), 'facetToken: nonexistent id');
+        // When a valid snapshot is queried, there are three possibilities:
+        //  a) The queried value was not modified after the snapshot was taken. Therefore, a snapshot entry was never
+        //  created for this id, and all stored snapshot ids are smaller than the requested one. The value that corresponds
+        //  to this id is the current one.
+        //  b) The queried value was modified after the snapshot was taken. Therefore, there will be an entry with the
+        //  requested id, and its value is the one to return.
+        //  c) More snapshots were created after the requested one, and the queried value was later modified. There will be
+        //  no entry for the requested id: the value that corresponds to it is that of the smallest snapshot id that is
+        //  larger than the requested one.
+        //
+        // In summary, we need to find an element in an array, returning the index of the smallest value that is larger if
+        // it is not found, unless said value doesn't exist (e.g. when all values are smaller). Arrays.findUpperBound does
+        // exactly this.
+        uint index = snapshots.ids.findUpperBound(snapshotId);
+        if (index == snapshots.ids.length) {
+            return (false, 0);
+        } else {
+            return (true, snapshots.values[index]);
+        }
+    }
+
+    function _lastSnapshotId(uint[] storage ids) private view returns (uint) {
+        if (ids.length == 0) {
+            return 0;
+        } else {
+            return ids[ids.length - 1];
+        }
+    }
+
+    function _updateAccountSnapshot(address account) private {
+        _updateSnapshot(token().accountBalanceSnapshots[account], balanceOf(account));
+    }
+
+    function _updateTotalSupplySnapshot() private {
+        _updateSnapshot(token().totalSupplySnapshots, totalSupply());
+    }
+
+    function _updateSnapshot(Snapshots storage snapshots, uint currentValue) private {
+        uint currentId = getCurrentSnapshotId();
+        if (_lastSnapshotId(snapshots.ids) < currentId) {
+            snapshots.ids.push(currentId);
+            snapshots.values.push(currentValue);
+        }
     }
 }

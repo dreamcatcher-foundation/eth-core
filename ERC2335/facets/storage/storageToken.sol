@@ -22,6 +22,7 @@ contract storageToken {
         EnumerableSet.AddressSet whitelist;
         EnumerableSet.AddressSet blacklist;
         EnumerableSet.AddressSet holders;
+        EnumerableSet.AddressSet minters;
         uint feeTransfer;
         uint wrapperRate;
         address feeTransferTo;
@@ -36,6 +37,7 @@ contract storageToken {
         bool enabledAdminMarketMaker;
         bool enabledPausable;
         bool enabledTokenWrapper;
+        bool enabledForges;
         mapping(address => Snapshots) accountBalanceSnapshots;
         Snapshots totalSupplySnapshots;
         Counters.Counter currentSnapshotId;
