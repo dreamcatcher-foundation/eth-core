@@ -6,13 +6,14 @@ import 'ERC2335/facets/storage/storageOracle.sol';
 import 'ERC2335/facets/storage/storageSafe.sol';
 import 'imports/openzeppelin/utils/structs/EnumerableSet.sol';
 import 'imports/openzeppelin/token/ERC20/extensions/IERC20Metadata.sol';
+import 'ERC2335/facets/storage/storageToken.sol';
 
 interface IEACAggregatorProxy {
     function latestAnswer() external view returns (uint);
     function latestTimestamp() external view returns (uint);
 }
 
-contract facetAccounting is Context, storageAdmin, storageOracle, storageSafe {
+contract facetAccounting is Context, storageAdmin, storageOracle, storageSafe, storageToken {
     using EnumerableSet for EnumerableSet.AddressSet;
     
     function totalAssets() public view virtual returns (uint sum) {
@@ -31,5 +32,7 @@ contract facetAccounting is Context, storageAdmin, storageOracle, storageSafe {
         }
     }
 
-    function totalAssetsPerShare();
+    function totalAssetsPerShare() public view virtual returns (uint sum) {
+        return totalAssets() / token().totalSupply;
+    }
 }
