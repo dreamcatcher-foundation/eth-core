@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
-
-import "contracts/polygon/deps/uniswap/interfaces/IUniswapV2Router01.sol";
+import 'imports/uniswap/interfaces/IUniswapV2Router01.sol';
 
 interface IUniswapV2Router02 is IUniswapV2Router01 {
     function removeLiquidityETHSupportingFeeOnTransferTokens(
