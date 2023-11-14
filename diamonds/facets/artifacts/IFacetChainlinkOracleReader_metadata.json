@@ -1,0 +1,242 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "oldReadingAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newReadingAddress",
+						"type": "address"
+					}
+				],
+				"name": "ChainlinkOracleReadingAddressChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "oldPriceFeed",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newPriceFeed",
+						"type": "address"
+					}
+				],
+				"name": "ChainlinkPriceFeedAssigned",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "newPriceFeed",
+						"type": "address"
+					}
+				],
+				"name": "____assignTokenToChainlinkPriceFeed",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newReadingAddress",
+						"type": "address"
+					}
+				],
+				"name": "____setChainlinkOracleReadingAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "____unassignTokenToChainlinkPriceFeed",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "getChainlinkLatestAnswer",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "getChainlinkLatestTimestamp",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "getChainlinkPriceFeed",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "hasChainlinkPriceFeed",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/FacetChainlinkOracleReader.sol": "IFacetChainlinkOracleReader"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/FacetChainlinkOracle.sol": {
+			"keccak256": "0xb41b6efaf4fb87b0bdd01931e7f4142092e7480d99b3ffcca13b0898a1331984",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://19032891f4dbe811395208672b4cfd55fca5fb5201a4d0c323973ab69937bcf4",
+				"dweb:/ipfs/Qmewk326ARBrS1GhcbgXb5DrqFeaxgpT9hAZngmUTeNarU"
+			]
+		},
+		"diamonds/facets/FacetChainlinkOracleReader.sol": {
+			"keccak256": "0x460296bcdf19264a36c63843f3fd11cf1cce8b996035e8a8ff6374f2e6408ddf",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://615947fcbb8ad1a3ac2e50046372ba16e20f009588d98e5b58d60694b7f940ca",
+				"dweb:/ipfs/QmPrBRvmaSFhKLE7sJekkrWX4gU93S6HdWWhoCg6xJyrao"
+			]
+		},
+		"diamonds/facets/slots/SlotChainlinkOracle.sol": {
+			"keccak256": "0xa8e6c8d99907406c4491c7e92b642af32c58238c2562592377d58dd36615e577",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a3d72e7174cec006f569e4c0860d8ae5a43d5839375c0101e5412a08d0657568",
+				"dweb:/ipfs/QmX6HRXKD2BtfCa13GZg8V7cZm3rc7j2aYnUnNwMF1VpqE"
+			]
+		},
+		"diamonds/facets/slots/SlotChainlinkOracleReader.sol": {
+			"keccak256": "0xe4f72dd20bd3ec5cfe8f2ff4081f2dba5196cb4c71438730facda7e5e8a9fcf6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ddd812901e00003d8ab897eccfddacbc137586642e2e3fb711de9d6ebd7c071d",
+				"dweb:/ipfs/Qmba6wmmLcDvpR6w1WoAsEzuGvXzcuezYwDZBsjoovgt1p"
+			]
+		},
+		"imports/openzeppelin/utils/Context.sol": {
+			"keccak256": "0x639f180f9bedd48998c68f1bf4f8d01b37a4573bc496acb04a55308c6de0045c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4ff2313c66e4e14d167aae923b38509ec68dcaa281d2314f45b527139d33d4af",
+				"dweb:/ipfs/QmU7aik96EmKeG8feBbQZ8BufngtYB6guGTkZoX5umP73i"
+			]
+		}
+	},
+	"version": 1
+}

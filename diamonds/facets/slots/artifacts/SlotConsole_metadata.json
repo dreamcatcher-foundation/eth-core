@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/slots/SlotConsole.sol": "SlotConsole"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/slots/SlotConsole.sol": {
+			"keccak256": "0x8e1e72ccc26aa31c282a6acb19d092ce88a234facdb6c77d5b88dd63164b2094",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c823289073c2162f397f5b4dc9d808637ac5d04578ae4ae03d2454fdb3ff9cee",
+				"dweb:/ipfs/QmX84qBQ5WMPWk6ecdkcJ3goQS4xFo5RzwrawthwbDb8YU"
+			]
+		}
+	},
+	"version": 1
+}

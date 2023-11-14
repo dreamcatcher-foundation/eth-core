@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/slots/SlotUniswap02Routers.sol": "SlotUniswap02Routers"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/slots/SlotUniswap02Routers.sol": {
+			"keccak256": "0xa752703d108407861c492cb41f2653e7097ec5c189792618b3cb12d1eee3c4a8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d3df7db3ab55aea3fd3d8f37698ee72f8a9b362e8eef5498865b80545d46becc",
+				"dweb:/ipfs/QmPtUCojSxoVxHPaj8thBq3EBxqdjjgEoDqYmDvR7qbKUs"
+			]
+		}
+	},
+	"version": 1
+}

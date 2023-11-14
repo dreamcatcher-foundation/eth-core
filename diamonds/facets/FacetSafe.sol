@@ -157,7 +157,7 @@ contract FacetSafe is SlotSafe, Context {
     }
 
     /// for eth
-    function _deposit() private virtual {
+    function _deposit() private {
         require(isAllowedIn(address(0)), 'FacetSafe: eth is not allowed in');
         require(msg.value >= 1, 'FacetSafe: insufficient amount in');
         safe().balances[address(0)] += msg.value;

@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/slots/SlotChainlinkOracleReader.sol": "SlotChainlinkOracleReader"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/slots/SlotChainlinkOracleReader.sol": {
+			"keccak256": "0xe4f72dd20bd3ec5cfe8f2ff4081f2dba5196cb4c71438730facda7e5e8a9fcf6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ddd812901e00003d8ab897eccfddacbc137586642e2e3fb711de9d6ebd7c071d",
+				"dweb:/ipfs/Qmba6wmmLcDvpR6w1WoAsEzuGvXzcuezYwDZBsjoovgt1p"
+			]
+		}
+	},
+	"version": 1
+}

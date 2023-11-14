@@ -1,0 +1,427 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "tokenIn",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "amountIn",
+						"type": "uint256"
+					}
+				],
+				"name": "Deposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "tokenIn",
+						"type": "address"
+					}
+				],
+				"name": "PermissionGrantedTokenIn",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "tokenOut",
+						"type": "address"
+					}
+				],
+				"name": "PermissionGrantedTokenOut",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "tokenIn",
+						"type": "address"
+					}
+				],
+				"name": "PermissionRevokedTokenIn",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "tokenOut",
+						"type": "address"
+					}
+				],
+				"name": "PermissionRevokedTokenOut",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "tokenOut",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "amountOut",
+						"type": "uint256"
+					}
+				],
+				"name": "Withdraw",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "____allowTokenInToSafe",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "____allowTokenOutOutOfSafe",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "____forbidTokenInToSafe",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "____forbidTokenOutOfSafe",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountOut",
+						"type": "uint256"
+					}
+				],
+				"name": "____withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenOut",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountOut",
+						"type": "uint256"
+					}
+				],
+				"name": "____withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenIn",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountIn",
+						"type": "uint256"
+					}
+				],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "getHoldingsInSafe",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "getTokenAllowedInToSafe",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "getTokenAllowedOutFromSafe",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getTokensAllowedInToSafe",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getTokensAllowedOutFromSafe",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "isAllowedIn",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "isAllowedOut",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/FacetSafe.sol": "IFacetSafe"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/FacetSafe.sol": {
+			"keccak256": "0x9db4ad41622f526aee1a0c15c6064998d69132699b0ccb18690b2147aa617d15",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://42c8c5cc122c549dca8a944e6e59e1b1bc541256835e2f2b380ab653f23ef7e5",
+				"dweb:/ipfs/QmSJonmntjGWDZ9L2eUehPSv8YwymDaECDnYASWG1XDWkK"
+			]
+		},
+		"diamonds/facets/slots/SlotSafe.sol": {
+			"keccak256": "0x3b8b3fb616ca402d144fc4b48c43c45cb92209a663d83e8c8f72fb60b074a280",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c93220dddd6eb446bcf1f2674131fd3853c2f7afdb091c7204e265b760185398",
+				"dweb:/ipfs/QmaShhtaddfpuJ6NUYiTtRJaj2WTQUiJpVq922Y6aEFeTf"
+			]
+		},
+		"imports/openzeppelin/token/ERC20/IERC20.sol": {
+			"keccak256": "0x25c33569824f7653c064ccac6b9c63ba19833c7818debaa3f7f7737f5175d7d7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6c002fe819fd2da94ef4cbcddcd4a62ba42454b000d2321314bfff73353792e7",
+				"dweb:/ipfs/QmadL9VMe3jTyf5sg8g8Y9Q4ESsyos42rZPnvJaKuhUacK"
+			]
+		},
+		"imports/openzeppelin/token/ERC20/extensions/IERC20Metadata.sol": {
+			"keccak256": "0x2837661e72b15493671ff5e5099b565b626c53f4d90f347211dd78924aca24ca",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://34ced2145df7d08fbb3fba9471faf5a1609fc3def76d004c658f480e5cebb013",
+				"dweb:/ipfs/QmSJ42tRU39HdpJSLXCinUtzzxnxBFncnCbfK6juqqep7U"
+			]
+		},
+		"imports/openzeppelin/utils/Context.sol": {
+			"keccak256": "0x639f180f9bedd48998c68f1bf4f8d01b37a4573bc496acb04a55308c6de0045c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4ff2313c66e4e14d167aae923b38509ec68dcaa281d2314f45b527139d33d4af",
+				"dweb:/ipfs/QmU7aik96EmKeG8feBbQZ8BufngtYB6guGTkZoX5umP73i"
+			]
+		},
+		"imports/openzeppelin/utils/structs/EnumerableSet.sol": {
+			"keccak256": "0xeefcbb8cb69f04a18f6dc61d4811133ce9aeff96ce60820f758abc52ef55b892",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://81c61c0dd40890f6a4b1fb792bc5b5b61e821fcafa2aae6c7eda6d4f1ece2593",
+				"dweb:/ipfs/QmRLMrq6BiPS9wGu7ZC174SFYWCu6cxbU3agDw2XgJeDpT"
+			]
+		}
+	},
+	"version": 1
+}

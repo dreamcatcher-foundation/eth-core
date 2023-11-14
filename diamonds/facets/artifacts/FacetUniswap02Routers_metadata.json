@@ -1,0 +1,247 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "tokenIn",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "tokenOut",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amountIn",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "minAmountOut",
+						"type": "uint256"
+					}
+				],
+				"name": "Swap",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "exchange",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenIn",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenOut",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountIn",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "bridgeToken",
+						"type": "address"
+					}
+				],
+				"name": "____swapTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"notice": "requires chainlink oracle",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/FacetUniswap02Routers.sol": "FacetUniswap02Routers"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/FacetChainlinkOracle.sol": {
+			"keccak256": "0xb41b6efaf4fb87b0bdd01931e7f4142092e7480d99b3ffcca13b0898a1331984",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://19032891f4dbe811395208672b4cfd55fca5fb5201a4d0c323973ab69937bcf4",
+				"dweb:/ipfs/Qmewk326ARBrS1GhcbgXb5DrqFeaxgpT9hAZngmUTeNarU"
+			]
+		},
+		"diamonds/facets/FacetSafe.sol": {
+			"keccak256": "0x9db4ad41622f526aee1a0c15c6064998d69132699b0ccb18690b2147aa617d15",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://42c8c5cc122c549dca8a944e6e59e1b1bc541256835e2f2b380ab653f23ef7e5",
+				"dweb:/ipfs/QmSJonmntjGWDZ9L2eUehPSv8YwymDaECDnYASWG1XDWkK"
+			]
+		},
+		"diamonds/facets/FacetToken.sol": {
+			"keccak256": "0x12a3b513ef47c88421a0946ee22f70d40eb01a9a33bca8c97a211312abf60874",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://85d97dad8a5afd08c623431f561efb06a240486933853c329fdb82617cdefe4d",
+				"dweb:/ipfs/QmVQu6uJxu2WL2wUYDt6NZTBK6J45kaZTr9n9NVAKvUJ2j"
+			]
+		},
+		"diamonds/facets/FacetUniswap02Routers.sol": {
+			"keccak256": "0xac6ffd281ee93193dfbe5a50b32c6136a566417a4556a05bda070840bb18c451",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://36d3604dcb497986a679accfef44240995e72602edccef9e82740cceea983ff2",
+				"dweb:/ipfs/QmNsViKezQEwfpfwmWCy8BMzhWRKpxdHp9bzTEFwQmUdgC"
+			]
+		},
+		"diamonds/facets/slots/SlotChainlinkOracle.sol": {
+			"keccak256": "0xa8e6c8d99907406c4491c7e92b642af32c58238c2562592377d58dd36615e577",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a3d72e7174cec006f569e4c0860d8ae5a43d5839375c0101e5412a08d0657568",
+				"dweb:/ipfs/QmX6HRXKD2BtfCa13GZg8V7cZm3rc7j2aYnUnNwMF1VpqE"
+			]
+		},
+		"diamonds/facets/slots/SlotSafe.sol": {
+			"keccak256": "0x3b8b3fb616ca402d144fc4b48c43c45cb92209a663d83e8c8f72fb60b074a280",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c93220dddd6eb446bcf1f2674131fd3853c2f7afdb091c7204e265b760185398",
+				"dweb:/ipfs/QmaShhtaddfpuJ6NUYiTtRJaj2WTQUiJpVq922Y6aEFeTf"
+			]
+		},
+		"diamonds/facets/slots/SlotToken.sol": {
+			"keccak256": "0x86e54644f6e914859a2a9fb1a16131936e39f4400fadf6b54ddd2a4804bded7c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://82d924fe171aa658a92df82270e73a4daee685968e8dcd12f949d21136000462",
+				"dweb:/ipfs/QmX7y3SaQpS6qjed34uWd9e1b6ZXuEhC6MaTdNsFDozy7Q"
+			]
+		},
+		"diamonds/facets/slots/SlotUniswap02Routers.sol": {
+			"keccak256": "0xa752703d108407861c492cb41f2653e7097ec5c189792618b3cb12d1eee3c4a8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d3df7db3ab55aea3fd3d8f37698ee72f8a9b362e8eef5498865b80545d46becc",
+				"dweb:/ipfs/QmPtUCojSxoVxHPaj8thBq3EBxqdjjgEoDqYmDvR7qbKUs"
+			]
+		},
+		"imports/openzeppelin/token/ERC20/IERC20.sol": {
+			"keccak256": "0x25c33569824f7653c064ccac6b9c63ba19833c7818debaa3f7f7737f5175d7d7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6c002fe819fd2da94ef4cbcddcd4a62ba42454b000d2321314bfff73353792e7",
+				"dweb:/ipfs/QmadL9VMe3jTyf5sg8g8Y9Q4ESsyos42rZPnvJaKuhUacK"
+			]
+		},
+		"imports/openzeppelin/token/ERC20/extensions/IERC20Metadata.sol": {
+			"keccak256": "0x2837661e72b15493671ff5e5099b565b626c53f4d90f347211dd78924aca24ca",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://34ced2145df7d08fbb3fba9471faf5a1609fc3def76d004c658f480e5cebb013",
+				"dweb:/ipfs/QmSJ42tRU39HdpJSLXCinUtzzxnxBFncnCbfK6juqqep7U"
+			]
+		},
+		"imports/openzeppelin/utils/Arrays.sol": {
+			"keccak256": "0x574acffb11f924844c152e562688142ab6e54bbdf4ca3f4abc87b28a69e5cead",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8347a9e49cd21ced3d83bf834caa57de8c4a9cc386d7fde14766480921d01a82",
+				"dweb:/ipfs/QmfUBz7mComtHR6YAT1w5dGSjwSkM1Q8N4NuCc5a3YPFEw"
+			]
+		},
+		"imports/openzeppelin/utils/Context.sol": {
+			"keccak256": "0x639f180f9bedd48998c68f1bf4f8d01b37a4573bc496acb04a55308c6de0045c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4ff2313c66e4e14d167aae923b38509ec68dcaa281d2314f45b527139d33d4af",
+				"dweb:/ipfs/QmU7aik96EmKeG8feBbQZ8BufngtYB6guGTkZoX5umP73i"
+			]
+		},
+		"imports/openzeppelin/utils/Counters.sol": {
+			"keccak256": "0x632d89cfbd5134bb48ab9f27f8acb3ef6230858240a06c01860523508cce9502",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://40a5aa5f1e2c16072e5b0976a2441d03b2a64e54b89eaed53b68f93d5838b4f0",
+				"dweb:/ipfs/Qmax5x4ubHZdFoRRFKdiCKX9FY78UiKMSAQmP81Mszecop"
+			]
+		},
+		"imports/openzeppelin/utils/StorageSlot.sol": {
+			"keccak256": "0x3f82fa58b82665ea4454b705f47d00417c63587ce418f9a1a6ce8abf16c51d1e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://910362331bf2befc3c29b7db1fde7a82f32217ea31fc107f3b7771b32e8500f4",
+				"dweb:/ipfs/QmT95CFiHtSso6XVG1PBztsgmnZfU7inGZRxKiLtsxUHgz"
+			]
+		},
+		"imports/openzeppelin/utils/math/Math.sol": {
+			"keccak256": "0xffe8a176523d38132299bc22fd6bb138954ba3f35d41a86d004dac50dc31b615",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://67b3d7e2d3042e5061168827e518b2eb546be0f4a3f764f654c28205c5a428e5",
+				"dweb:/ipfs/Qma3d9Vim9NrzWAFASxpDppgGXo8MWZ6zorsgAYYXsbXph"
+			]
+		},
+		"imports/openzeppelin/utils/structs/EnumerableSet.sol": {
+			"keccak256": "0xeefcbb8cb69f04a18f6dc61d4811133ce9aeff96ce60820f758abc52ef55b892",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://81c61c0dd40890f6a4b1fb792bc5b5b61e821fcafa2aae6c7eda6d4f1ece2593",
+				"dweb:/ipfs/QmRLMrq6BiPS9wGu7ZC174SFYWCu6cxbU3agDw2XgJeDpT"
+			]
+		},
+		"imports/uniswap/interfaces/IUniswapV2Router01.sol": {
+			"keccak256": "0xf6d726abc263af0adb95c2bbba65d8001c5e311a2cae9df74285de7bdec23ed0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2ff1074eb18cc8c95f34b2d54af0bee7b5d625a49f98baf5cfe60fc7696bed59",
+				"dweb:/ipfs/QmY1k69ucGUPMX5ajy35DTXkCXKBJ3xjSoeqSA3GQ3RNkc"
+			]
+		},
+		"imports/uniswap/interfaces/IUniswapV2Router02.sol": {
+			"keccak256": "0x1a67088c810ff2ee418221b94dad39ce26f90007a8077e6b1c20a80b0f91752b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d0bada15e16aac6245f03cacdc0b839334fb48e8a59ac55bbca04c859f8bd306",
+				"dweb:/ipfs/QmQAmDwMNkpQaKyV6aatCmNKebwURS8rCAn483iieCp2YD"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,53 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/slots/SlotSafe.sol": "SlotSafe"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/slots/SlotSafe.sol": {
+			"keccak256": "0x3b8b3fb616ca402d144fc4b48c43c45cb92209a663d83e8c8f72fb60b074a280",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c93220dddd6eb446bcf1f2674131fd3853c2f7afdb091c7204e265b760185398",
+				"dweb:/ipfs/QmaShhtaddfpuJ6NUYiTtRJaj2WTQUiJpVq922Y6aEFeTf"
+			]
+		},
+		"imports/openzeppelin/utils/structs/EnumerableSet.sol": {
+			"keccak256": "0xeefcbb8cb69f04a18f6dc61d4811133ce9aeff96ce60820f758abc52ef55b892",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://81c61c0dd40890f6a4b1fb792bc5b5b61e821fcafa2aae6c7eda6d4f1ece2593",
+				"dweb:/ipfs/QmRLMrq6BiPS9wGu7ZC174SFYWCu6cxbU3agDw2XgJeDpT"
+			]
+		}
+	},
+	"version": 1
+}

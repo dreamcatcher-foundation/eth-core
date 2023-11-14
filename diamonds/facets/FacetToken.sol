@@ -117,7 +117,7 @@ contract FacetToken is SlotToken, Context, IERC20, IERC20Metadata {
     }
 
     function increaseAllowance(address spender, uint addedValue) public virtual returns (bool) {
-        address owner = _msgSender();
+        address owner_ = _msgSender();
         _approve(owner_, spender, allowance(owner_, spender) + addedValue);
         return true;
     }

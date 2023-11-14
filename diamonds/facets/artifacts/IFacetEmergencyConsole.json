@@ -1,0 +1,409 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"____grantRoleEmergencyOperator(address)": "3e46d27b",
+			"____revokeRoleEmergencyOperator(address)": "71dedccf",
+			"____setEmergencyRequiredSignatures(uint256)": "48d7b567",
+			"____setEmergencyTimelock(uint256)": "7526c09a",
+			"emergencyOperator(uint256)": "166e34dd",
+			"emergencyOperators()": "56db323b",
+			"emergencyRequest(address,bytes)": "797ae568",
+			"emergencyRequestHasBeenExecuted(uint256)": "0792ac9e",
+			"executeEmergencyRequest(uint256)": "ce71d4bc",
+			"getCurrentEmergencyRequestId()": "65fd04fb",
+			"getEmergencyRequestArgs(uint256)": "0548dd96",
+			"getEmergencyRequestDuration(uint256)": "62d7f1b2",
+			"getEmergencyRequestExpectedSigners(uint256)": "51f2aa47",
+			"getEmergencyRequestRequiredSignatures(uint256)": "348f3a0e",
+			"getEmergencyRequestStartTimestamp(uint256)": "c3d511e9",
+			"getEmergencyRequestTarget(uint256)": "85b2c065",
+			"getEmergencySignature(uint256,uint256)": "ac6193c5",
+			"getEmergencySignatures(uint256)": "366c7c2f",
+			"signEmergencyRequest(uint256)": "579d9f0c"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "account",
+					"type": "address"
+				}
+			],
+			"name": "____grantRoleEmergencyOperator",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "account",
+					"type": "address"
+				}
+			],
+			"name": "____revokeRoleEmergencyOperator",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "newRequiredSignatures",
+					"type": "uint256"
+				}
+			],
+			"name": "____setEmergencyRequiredSignatures",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "newTimelockSeconds",
+					"type": "uint256"
+				}
+			],
+			"name": "____setEmergencyTimelock",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "operatorId",
+					"type": "uint256"
+				}
+			],
+			"name": "emergencyOperator",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "emergencyOperators",
+			"outputs": [
+				{
+					"internalType": "address[]",
+					"name": "",
+					"type": "address[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "to",
+					"type": "address"
+				},
+				{
+					"internalType": "bytes",
+					"name": "args",
+					"type": "bytes"
+				}
+			],
+			"name": "emergencyRequest",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "emergencyRequestHasBeenExecuted",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "executeEmergencyRequest",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				},
+				{
+					"internalType": "bytes",
+					"name": "",
+					"type": "bytes"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getCurrentEmergencyRequestId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEmergencyRequestArgs",
+			"outputs": [
+				{
+					"internalType": "bytes",
+					"name": "",
+					"type": "bytes"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEmergencyRequestDuration",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEmergencyRequestExpectedSigners",
+			"outputs": [
+				{
+					"internalType": "address[]",
+					"name": "",
+					"type": "address[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEmergencyRequestRequiredSignatures",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEmergencyRequestStartTimestamp",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEmergencyRequestTarget",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "signatureId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEmergencySignature",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "getEmergencySignatures",
+			"outputs": [
+				{
+					"internalType": "address[]",
+					"name": "",
+					"type": "address[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "signEmergencyRequest",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]
+}

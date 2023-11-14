@@ -10,8 +10,8 @@ interface IFacetValue {
     function totalAssetsPerShare() external view returns (uint);
     function convertToShares(address tokenIn, uint amountIn) external view returns (uint);
     function convertToAssets(uint amountIn) external view returns (uint);
-    function depositInVault(address tokenIn, uint amountIn) external;
-    function withdrawFromVault(uint amountIn) external;
+    function depositInVault(address account, address tokenIn, uint amountIn) external;
+    function withdrawFromVault(address account, uint amountIn) external;
 }
 
 /// requires safe, token, and chainlink oracle facets to be implemented
@@ -68,6 +68,10 @@ contract FacetVault is FacetSafe, FacetToken, FacetChainlinkOracle {
         _withdrawFromVault(amountIn);
     }
 
+    function _onlySelf() internal view virtual override (FacetSafe, FacetToken, FacetChainlinkOracle) {
+        super._onlySelf();
+    }
+
     function _depositInVault(address tokenIn, uint amountIn) private {
         uint amountToMint = convertToShares(tokenIn, amountIn);
         address self = address(this);
@@ -78,7 +82,7 @@ contract FacetVault is FacetSafe, FacetToken, FacetChainlinkOracle {
         deposit(tokenIn, amountIn);
         IFacetToken(self).____mint(amountToMint);
         IFacetToken(self).transfer(_msgSender(), amountToMint);
-        emit DepositInVault(_msgSender(), tokenIn, amountIn);
+        emit DepositInVault(_msgSender(), tokenIn, amountIn, amountToMint);
     }
 
     /// repays in kind
