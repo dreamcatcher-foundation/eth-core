@@ -6,9 +6,12 @@ import 'diamonds/facets/FacetChainlinkOracle.sol';
 import 'imports/openzeppelin/utils/Context.sol';
 import 'diamonds/facets/FacetSafe.sol';
 import 'diamonds/facets/FacetToken.sol';
+import 'libraries/Uint.sol';
 
 /// requires chainlink oracle
 contract FacetUniswap02Routers is SlotUniswap02Routers, Context {
+    using Uint for uint;
+
     event Swap(address tokenIn, address tokenOut, uint amountIn, uint minAmountOut);
 
     function ____swapTokens(string memory exchange, address tokenIn, address tokenOut, uint amountIn, address bridgeToken) public virtual {
@@ -19,6 +22,7 @@ contract FacetUniswap02Routers is SlotUniswap02Routers, Context {
         require(amountIn != 0, 'FacetUniswap02Routers: zero value');
         require(IFacetChainlinkOracle(self).hasChainlinkPriceFeed(tokenIn), 'FacetUniswap02Routers: unassigned token in');
         require(IFacetChainlinkOracle(self).hasChainlinkPriceFeed(tokenOut), 'FacetUniswap02Routers: unassigned token out');
+        
         uint priceA = (IFacetChainlinkOracle(self).getChainlinkLatestAnswer(tokenIn));
         uint priceB = (IFacetChainlinkOracle(self).getChainlinkLatestAnswer(tokenOut));
         uint minAmountOut = ((amountIn / (10**IFacetToken(tokenIn).decimals())) / priceB) * priceA;
