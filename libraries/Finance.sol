@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-library LibFinance {
+library Finance {
 
     function amountToMint(uint valueIn, uint balance, uint supply, uint8 decimalsA, uint8 decimalsB, uint8 decimalsC) internal pure returns (uint) {
         uint8 dampner = 18;
