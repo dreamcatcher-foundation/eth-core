@@ -4,6 +4,7 @@ import 'diamonds/facets/slots/SlotSafe.sol';
 import 'imports/openzeppelin/utils/Context.sol';
 import 'imports/openzeppelin/utils/structs/EnumerableSet.sol';
 import 'imports/openzeppelin/token/ERC20/extensions/IERC20Metadata.sol';
+import 'libraries/Uint.sol';
 
 interface IFacetSafe {
     event Deposit(address indexed from, address indexed tokenIn, uint indexed amountIn);
@@ -36,6 +37,7 @@ interface IFacetSafe {
 /// simple safe to move funds in and out of contract
 contract FacetSafe is SlotSafe, Context {
     using EnumerableSet for EnumerableSet.AddressSet;
+    using Uint for uint;
 
     event Deposit(address indexed from, address indexed tokenIn, uint indexed amountIn);
     event Withdraw(address indexed to, address indexed tokenOut, uint indexed amountOut);
@@ -70,6 +72,7 @@ contract FacetSafe is SlotSafe, Context {
 
     function ____withdraw(address to, address tokenOut, uint amountOut) external {
         IERC20Metadata token = IERC20Metadata(tokenOut);
+        amaountOut = amountOut.native(token.decimals());
         _onlySelf();
         require(tokenOut != address(0), 'FacetSafe: improper method');
         require(isAllowedOut(tokenOut), 'FacetSafe: token is not allowed out');
@@ -82,7 +85,7 @@ contract FacetSafe is SlotSafe, Context {
         emit Withdraw(to, tokenOut, amountOut);
     }
 
-    function ____withdraw(address to, uint amountOut) external {
+    function ____withdraw(address to, uint amountOut) external { 
         _onlySelf();
         require(isAllowedOut(address(0)), 'FacetSafe: eth is not allowed out');
         require(safe().balances[address(0)] >= amountOut, 'FacetSafe: insufficient balance');
