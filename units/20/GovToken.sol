@@ -14,7 +14,7 @@ interface IGovToken is IERC20Metadata, IERC20Permit {
     function snapshot() external returns (uint);
 }
 
-contract GovToken is ERC20, ERC20Burnable, ERC20Snapshot, ERC20Permit, IGovToken {
+contract GovToken is ERC20, ERC20Burnable, ERC20Snapshot, ERC20Permit {
     constructor(string memory name, string memory symbol, uint supply) ERC20(name, symbol) ERC20Permit(name) {
         _mint(msg.sender, supply * (10**18));
     }
