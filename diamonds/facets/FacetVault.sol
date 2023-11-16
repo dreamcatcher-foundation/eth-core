@@ -1,114 +1,109 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import 'diamonds/facets/FacetSafe.sol';
-import 'diamonds/facets/FacetToken.sol';
-import 'diamonds/facets/FacetChainlinkOracle.sol';
+import 'diamonds/facets/interfaces/IFacetTokenLink.sol';
 import 'imports/openzeppelin/utils/structs/EnumerableSet.sol';
+import 'diamonds/facets/interfaces/IFacetChainlinkOracle.sol';
+import 'libraries/Uint.sol';
+import 'units/interfaces/IToken.sol';
+import 'libraries/Finance.sol';
+import 'diamonds/facets/interfaces/IFacetSafe.sol';
 
-interface IFacetValue {
-    function totalAssets() external view returns (uint);
-    function totalAssetsPerShare() external view returns (uint);
-    function convertToShares(address tokenIn, uint amountIn) external view returns (uint);
-    function convertToAssets(uint amountIn) external view returns (uint);
-    function depositInVault(address account, address tokenIn, uint amountIn) external;
-    function withdrawFromVault(address account, uint amountIn) external;
-}
-
-/// requires safe, token, and chainlink oracle facets to be implemented
-contract FacetVault is FacetSafe, FacetToken, FacetChainlinkOracle {
+/// basic vault implementation for closed beta
+/// it is still rough and needs to work around the EIP4626
+/// standard
+/// future features will include repayment in asset and
+/// full implementation and connection to the
+/// dreamcatcher protocol
+contract FacetVault is FacetSafe {
     using EnumerableSet for EnumerableSet.AddressSet;
+    using Uint for uint;
+    using Finance for uint;
 
-    event DepositInVault(address indexed from, address indexed tokenIn, uint indexed amountIn, uint amountOut);
-    event WithdrawFromVault(address indexed to, uint indexed amountIn, uint indexed amountOut);
+    function asset() public view virtual returns (address) {
+        /// return the address of USD but this is calculated
+        /// based on the tokens value in the oracle
+        /// any allowed token may be deposited
+        return address(0);
+    }
 
     function totalAssets() public view virtual returns (uint) {
-        /// price feeds are all assumed to be in usd
         uint sum;
         uint length = safe().onHand.length();
-        address self = address(this);
         for (uint i = 0; i < length; i++) {
-            address token_ = safe().onHand.at(i);
-            uint decimals_ = IFacetToken(token_).decimals();
-            uint balance = IFacetSafe(self).getHoldingsInSafe(token_);
-            /// price is 1 of the token so break down the price for each micro unit of the token
-            uint price = IFacetChainlinkOracle(self).getChainlinkLatestAnswer(token_) / (10**decimals_);
-            sum += (price * balance);
+            address token = safe().onHand.at(i);
+            if (IFacetChainlinkOracle(_self()).hasChainlinkPriceFeed(token)) {
+                uint balance = getHoldingsInSafe(token); /// 10**18
+                uint price = IFacetChainlinkOracle(_self()).getChainlinkLatestAnswer(token); /// 10**8
+                price = price.normal(8); /// chainlink out put always as 10**8
+                sum += (price * balance);
+            }
+            /// if the asset is not registered in the oracle then it will be ignored
         }
         return sum;
     }
 
+    /// token MUST BE 18 DECIMALS
     function totalAssetsPerShare() public view virtual returns (uint) {
-        address self = address(this);
-        return totalAssets() / IFacetToken(self).totalSupply();
+        return totalAssets() / IFacetTokenLink(_self()).totalSupply(); /// supply of token is assumed to be 18 decimals
     }
 
     function convertToShares(address tokenIn, uint amountIn) public view virtual returns (uint) {
-        /// if the token is part of the chainlink oracle then return an amount else return 0 because cannot find value of the token
-        address self = address(this);
-        bool isAllowedIn_ = IFacetSafe(self).isAllowedIn(tokenIn);
-        if (isAllowedIn_) {
-            uint decimals_ = IFacetToken(tokenIn).decimals();
-            uint valueIn = (IFacetChainlinkOracle(self).getChainlinkLatestAnswer(tokenIn) / (10**decimals_)) * amountIn;
-            return (valueIn * IFacetToken(self).totalSupply()) / totalAssets();
+        uint8 decimals = IToken(tokenIn).decimals();
+        amountIn = amountIn.normal(decimals);
+        if (isAllowedIn(tokenIn)) {
+            uint price = IFacetChainlinkOracle(_self()).getChainlinkLatestAnswer(tokenIn);
+            price = price.normal(8);
+            uint valueIn = (price * amountIn);
+            uint amountToMint = valueIn.mint(totalAssets(), IFacetTokenLink(_self()).totalSupply());
+            return amountToMint; /// returned at 10**18
         } else {
-            return 0;
+            return 0; /// if it cant find a value in then by default it will assume the asset is zero
         }
     }
 
+    /// assumed to be 10**18 because the pool token MUST BE 18 DECIMALS.
     function convertToAssets(uint amountIn) public view virtual returns (uint) {
-        address self = address(this);
-        return (amountIn * totalAssets()) / IFacetToken(self).totalSupply();
+        return amountIn.send(totalAssets(), IFacetTokenLink(_self()).totalSupply());
     }
 
-    function depositInVault(address tokenIn, uint amountIn) nonReentrant() public virtual {
-        _depositInVault(tokenIn, amountIn);
+    function maxDeposit(address receiver) public view virtual returns (uint) {
+        return 2**256 - 1;
     }
 
-    function withdrawFromVault(uint amountIn) nonReentrant() public virtual {
-        _withdrawFromVault(amountIn);
+    function previewDeposit(address tokenIn, uint amountIn) public view virtual returns (uint) {
+        return convertToShares(tokenIn, amountIn);
     }
 
-    function _onlySelf() internal view virtual override (FacetSafe, FacetToken, FacetChainlinkOracle) {
-        super._onlySelf();
-    }
-
-    function _depositInVault(address tokenIn, uint amountIn) private {
-        uint amountToMint = convertToShares(tokenIn, amountIn);
-        address self = address(this);
-        /// does not support eth
-        require(tokenIn != address(0), 'FacetVault: unsupported');
-        require(IFacetToken(tokenIn).balanceOf(_msgSender()) >= amountIn, 'FacetVault: insufficient balance');
-        require(amountToMint != 0, 'FacetVault: zero value');
-        deposit(tokenIn, amountIn);
-        IFacetToken(self).____mint(amountToMint);
-        IFacetToken(self).transfer(_msgSender(), amountToMint);
-        emit DepositInVault(_msgSender(), tokenIn, amountIn, amountToMint);
+    function deposit(address tokenIn, uint amountIn) public nonReentrant() virtual {
+        /// converted value to 10**18 to allow math
+        _deposit(tokenIn, amountIn);
+        IFacetTokenLink(_self()).____mint(_msgSender(), convertToShares(tokenIn, amountIn));
     }
 
     /// repays in kind
-    function _withdrawFromVault(uint amountIn) private {
-        uint amountToSend = convertToAssets(amountIn);
-        address self = address(this);
-        require(IFacetToken(self).balanceOf(_msgSender()) >= amountIn, 'FacetVault: insufficient balance');
-        require(amountToSend != 0, 'FacetVault: zero value');
-        uint portion = (amountToSend * 10000) / totalAssets();
+    function withdraw(uint amountIn) public virtual {
+        uint valueToSend = convertToAssets(amountIn);
+        _onlyCallerHasSufficientBalance(IFacetTokenLink(_self()).getLinkedToken(), amountIn);
+        uint portion = (valueToSend * 10000) / totalAssets(); /// get % of total assets
         uint length = safe().onHand.length();
-        /// for each holding send the proportional amount in kind
+        /// for each holding send the proportion to the reedeamer in kind
         for (uint i = 0; i < length; i++) {
             address tokenOut = safe().onHand.at(i);
             if (tokenOut == address(0)) {
-                /// eth has to be handled specially
-                uint balance = IFacetSafe(self).getHoldingsInSafe(address(0));
-                uint balanceToSend = (balance / 10000) * portion;
-                IFacetSafe(self).____withdraw(_msgSender(), balanceToSend);
+                /// amounts always in 10**18 of the token especially for eth
+                uint amount = getHoldingsInSafe(address(0));
+                uint amountToSend = (amount / 10000) * portion; /// send portion of eth
+                /// when ____withdraw is called by the contract itself
+                /// the context changes and the contract itself is allowing
+                /// the withdrawal
+                IFacetSafe(_self()).____withdraw(_msgSender(), amountToSend);
             } else {
-                uint balance = IFacetSafe(self).getHoldingsInSafe(tokenOut);
-                /// divide balance of the token by the portion owned by the contributor
-                uint balanceToSend = (balance / 10000) * portion;
-                IFacetSafe(self).____withdraw(_msgSender(), tokenOut, balanceToSend);
+                /// 10**18 is converted to native in withdraw function
+                uint amount = getHoldingsInSafe(tokenOut);
+                uint amountToSend = (amount / 10000) * portion;
+                IFacetSafe(_self()).____withdraw(_msgSender(), tokenOut, amountToSend);
             }
         }
-        /// should be as close to the amount to send as possible
-        emit WithdrawFromVault(_msgSender(), amountIn, amountToSend);
     }
-}
+} 

@@ -1,6 +1,6 @@
-- [ ] rework safe
-- [ ] rework vault
-- [ ] segment interfaces
+- [x] rework safe
+- [x] rework vault
+- [x] segment interfaces
 - [ ] testing
 - [ ] ... rework if required
 - [ ] launch polygon dao

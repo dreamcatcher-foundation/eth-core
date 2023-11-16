@@ -4,6 +4,7 @@ import 'diamonds/facets/slots/SlotSafe.sol';
 import 'imports/openzeppelin/utils/Context.sol';
 import 'imports/openzeppelin/utils/structs/EnumerableSet.sol';
 import 'imports/openzeppelin/token/ERC20/extensions/IERC20Metadata.sol';
+import 'imports/openzeppelin/token/ERC20/IERC20.sol';
 import 'libraries/Uint.sol';
 
 /// rework
@@ -13,114 +14,10 @@ contract FacetSafe is SlotSafe, Context {
 
     event Deposit(address from, address tokenIn, uint amountIn);
     event Withdraw(address to, address tokenOut, uint amountOut);
-
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-interface IFacetSafe {
-    event Deposit(address indexed from, address indexed tokenIn, uint indexed amountIn);
-    event Withdraw(address indexed to, address indexed tokenOut, uint indexed amountOut);
-    event PermissionGrantedTokenIn(address indexed tokenIn);
-    event PermissionRevokedTokenIn(address indexed tokenIn);
-    event PermissionGrantedTokenOut(address indexed tokenOut);
-    event PermissionRevokedTokenOut(address indexed tokenOut);
-
-    function ____allowTokenInToSafe(address token) external;
-    function ____forbidTokenInToSafe(address token) external;
-    function ____allowTokenOutOutOfSafe(address token) external;
-    function ____forbidTokenOutOfSafe(address token) external;
-    function ____withdraw(address to, address tokenOut, uint amountOut) external;
-    function ____withdraw(address to, uint amountOut) external;
-
-    ///
-
-    function getHoldingsInSafe(address token) external view returns (uint);
-    function getTokensAllowedInToSafe() external view returns (address[] memory);
-    function getTokenAllowedInToSafe(uint tokenId) external view returns (address);
-    function getTokensAllowedOutFromSafe() external view returns (address[] memory);
-    function getTokenAllowedOutFromSafe(uint tokenId) external view returns (address);
-    function isAllowedIn(address token) external view returns (bool);
-    function isAllowedOut(address token) external view returns (bool);
-    function deposit(address tokenIn, uint amountIn) external;
-    function deposit() external;
-}
-
-/// simple safe to move funds in and out of contract
-contract FacetSafe is SlotSafe, Context {
-    using EnumerableSet for EnumerableSet.AddressSet;
-    using Uint for uint;
-
-    event Deposit(address indexed from, address indexed tokenIn, uint indexed amountIn);
-    event Withdraw(address indexed to, address indexed tokenOut, uint indexed amountOut);
-    event PermissionGrantedTokenIn(address indexed tokenIn);
-    event PermissionRevokedTokenIn(address indexed tokenIn);
-    event PermissionGrantedTokenOut(address indexed tokenOut);
-    event PermissionRevokedTokenOut(address indexed tokenOut);
-
-    function ____allowTokenInToSafe(address token) external {
-        _onlySelf();
-        safe().allowedIn.add(token);
-        emit PermissionGrantedTokenIn(token);
-    }
-
-    function ____forbidTokenInToSafe(address token) external {
-        _onlySelf();
-        safe().allowedIn.remove(token);
-        emit PermissionRevokedTokenIn(token);
-    }
-
-    function ____allowTokenOutOfSafe(address token) external {
-        _onlySelf();
-        safe().allowedOut.add(token);
-        emit PermissionGrantedTokenOut(token);
-    }
-
-    function ____forbidTokenOutOfSafe(address token) external {
-        _onlySelf();
-        safe().allowedOut.remove(token);
-        emit PermissionRevokedTokenOut(token);
-    }
-
-    function ____withdraw(address to, address tokenOut, uint amountOut) external {
-        IERC20Metadata token = IERC20Metadata(tokenOut);
-        amaountOut = amountOut.native(token.decimals());
-        _onlySelf();
-        require(tokenOut != address(0), 'FacetSafe: improper method');
-        require(isAllowedOut(tokenOut), 'FacetSafe: token is not allowed out');
-        require(safe().balances[tokenOut] >= amountOut, 'FacetSafe: insufficient balance');
-        safe().balances[tokenOut] -= amountOut;
-        if (safe().balances[tokenOut] == 0) {
-            safe().onHand.remove(tokenOut);
-        }
-        token.transfer(to, amountOut);
-        emit Withdraw(to, tokenOut, amountOut);
-    }
-
-    function ____withdraw(address to, uint amountOut) external { 
-        _onlySelf();
-        require(isAllowedOut(address(0)), 'FacetSafe: eth is not allowed out');
-        require(safe().balances[address(0)] >= amountOut, 'FacetSafe: insufficient balance');
-        safe().balances[address(0)] -= amountOut;
-        if (safe().balances[address(0)] == 0) {
-            safe().onHand.remove(address(0));
-        }
-        payable(to).transfer(amountOut);
-        emit Withdraw(to, address(0), amountOut);
-    }
-
-    ///
+    event PermissionGrantedTokenIn(address tokenIn);
+    event PermissionRevokedTokenIn(address tokenIn);
+    event PermissionGrantedTokenOut(address tokenOut);
+    event PermissionRevokedTokenOut(address tokenOut);
 
     modifier nonReentrant() {
         require(!safe().locked, 'FacetSafe: reentrant call');
@@ -128,6 +25,42 @@ contract FacetSafe is SlotSafe, Context {
         _;
         safe().locked = false;
     }
+
+    function ____allowTokenInToSafe(address token) external virtual {
+        _onlySelf();
+        safe().allowedIn.add(token);
+        emit PermissionGrantedTokenIn(token);
+    }
+
+    function ____forbidTokenInToSafe(address token) external virtual {
+        _onlySelf();
+        safe().allowedIn.remove(token);
+        emit PermissionRevokedTokenIn(token);
+    }
+
+    function ____allowTokenOutOfSafe(address token) external virtual {
+        _onlySelf();
+        safe().allowedOut.add(token);
+        emit PermissionGrantedTokenOut(token);
+    }
+
+    function ____forbidTokenOutOfSafe(address token) external virtual {
+        _onlySelf();
+        safe().allowedOut.remove(token);
+        emit PermissionRevokedTokenOut(token);
+    }
+
+    function ____withdraw(address to, address tokenOut, uint amountOut) nonReentrant() external virtual {
+        _onlySelf();
+        _withdraw(to, tokenOut, amountOut);
+    }
+
+    function ____withdraw(address to, uint amountOut) nonReentrant() external virtual {
+        _onlySelf();
+        _withdraw(to, amountOut);
+    }
+
+    ///
 
     function getHoldingsInSafe(address token) public view virtual returns (uint) {
         return safe().balances[token];
@@ -157,37 +90,78 @@ contract FacetSafe is SlotSafe, Context {
         return safe().allowedOut.contains(token);
     }
 
-    /// for erc20
-    function deposit(address tokenIn, uint amountIn) nonReentrant() public virtual {
-        _deposit(tokenIn, amountIn);
+    function _onlyAllowedIn(address token) internal view virtual {
+        require(isAllowedIn(token), 'FacetSafe: token is not allowed in');
     }
 
-    /// for eth
-    function deposit() nonReentrant() public payable virtual {
-        _deposit();
+    function _onlyAllowedOut(address token) internal view virtual {
+        require(isAllowedOut(token), 'FacetSafe: token is not allowed out');
+    }
+
+    function _onlyCallerHasSufficientBalance(address token, uint amount) internal view virtual {
+        amount = amount.native(IERC20Metadata(token).decimals());
+        require(IERC20(token).balanceOf(_msgSender()) >= amount);
+    }
+
+    function _onlyCallerHasSufficientBalance(uint amount) internal view virtual {
+        require(_msgSender().balance >= amount, 'FacetSafe: insufficient balance');
+    }
+
+    function _onlySelfHasSufficientBalance(address token, uint amount) internal view virtual {
+        require(safe().balances[token] >= amount, 'FacetSafe: insufficient balance');
     }
 
     function _onlySelf() internal view virtual {
-        require(_msgSender() == address(this), 'FacetSafe: only self');
+        require(_msgSender() == _self(), 'FacetSafe: only self');
     }
 
-    /// for erc20
-    function _deposit(address tokenIn, uint amountIn) private {
-        IERC20Metadata token = IERC20Metadata(tokenIn);
-        require(isAllowedIn(tokenIn), 'FacetSafe: token is not allowed in');
-        require(token.balanceOf(_msgSender()) >= amountIn, 'FacetSafe: insufficient balance');
-        token.transferFrom(_msgSender(), address(this), amountIn);
-        safe().balances[tokenIn] += amountIn;
+    function _self() internal view virtual returns (address) {
+        return address(this);
+    }
+    
+    /// amountIn always in 10**18
+    function _deposit(address tokenIn, uint amountIn) internal virtual {
+        IERC20 token = IERC20(tokenIn);
+        _onlyAllowedIn(tokenIn);
+        _onlyCallerHasSufficientBalance(tokenIn, amountIn);
+        token.transferFrom(_msgSender(), _self(), amountIn.native(IERC20Metadata(tokenIn).decimals()));
+        safe().balances[tokenIn] += amountIn; /// amount in as 10**18
         safe().onHand.add(tokenIn);
         emit Deposit(_msgSender(), tokenIn, amountIn);
     }
 
-    /// for eth
-    function _deposit() private {
-        require(isAllowedIn(address(0)), 'FacetSafe: eth is not allowed in');
-        require(msg.value >= 1, 'FacetSafe: insufficient amount in');
-        safe().balances[address(0)] += msg.value;
+    function _deposit() internal virtual {
+        _onlyAllowedIn(address(0));
+        _onlyCallerHasSufficientBalance(msg.value);
+        safe().balances[address(0)] += msg.value; /// eth always in 10**18 no conversion required
         safe().onHand.add(address(0));
         emit Deposit(_msgSender(), address(0), msg.value);
+    }
+
+    /// amount out in 10**18
+    function _withdraw(address to, address tokenOut, uint amountOut) internal virtual {
+        IERC20 token = IERC20(tokenOut);
+        require(tokenOut != address(0), 'FacetSafe: inapropriate method');
+        _onlyAllowedOut(tokenOut);
+        _onlySelfHasSufficientBalance(tokenOut, amountOut);
+        safe().balances[tokenOut] -= amountOut;
+        if (safe().balances[tokenOut] == 0) {
+            safe().onHand.remove(tokenOut);
+        }
+        /// must be converted back into native to interact with non native contracts
+        token.transfer(to, amountOut.native(IERC20Metadata(address(token)).decimals()));
+        emit Withdraw(to, tokenOut, amountOut);
+    }
+
+    /// amount out always in 10**18 cause eth is natively 18 decimals
+    function _withdraw(address to, uint amountOut) internal virtual {
+        _onlyAllowedOut(address(0));
+        _onlySelfHasSufficientBalance(address(0), amountOut);
+        safe().balances[address(0)] -= amountOut;
+        if (safe().balances[address(0)] == 0) {
+            safe().onHand.remove(address(0));
+        }
+        payable(to).transfer(amountOut);
+        emit Withdraw(to, address(0), amountOut);
     }
 }

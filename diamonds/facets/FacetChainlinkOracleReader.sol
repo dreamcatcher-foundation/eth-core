@@ -2,12 +2,7 @@
 pragma solidity ^0.8.0;
 import 'diamonds/facets/FacetChainlinkOracle.sol';
 import 'diamonds/facets/slots/SlotChainlinkOracleReader.sol';
-
-interface IFacetChainlinkOracleReader is IFacetChainlinkOracle {
-    event ChainlinkOracleReadingAddressChanged(address indexed oldReadingAddress, address indexed newReadingAddress);
-
-    function ____setChainlinkOracleReadingAddress(address newReadingAddress) external;
-}
+import 'diamonds/facets/interfaces/IFacetChainlinkOracle.sol';
 
 /// to be used instead of of chainlink oracle to read from another address
 contract FacetChainlinkOracleReader is SlotChainlinkOracleReader, FacetChainlinkOracle {

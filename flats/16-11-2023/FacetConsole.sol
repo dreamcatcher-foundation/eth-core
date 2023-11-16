@@ -1,8 +1,104 @@
-// SPDX-License-Identifier: MIT
+
+/** 
+ *  SourceUnit: c:\Users\marco\OneDrive\Documents\GitHub\eth-core\diamonds\facets\FacetConsole.sol
+*/
+            
+////// SPDX-License-Identifier-FLATTEN-SUPPRESS-WARNING: MIT
 pragma solidity ^0.8.0;
-import 'diamonds/facets/slots/SlotConsole.sol';
-import 'imports/openzeppelin/utils/Context.sol';
-import 'diamonds/facets/interfaces/IFacetConsole.sol';
+
+interface IFacetConsole {
+    function ____setOperator(address newOperator) external;
+    function ____setTimelock(uint newTimelockSeconds) external;
+
+    ///
+
+    function operator() external view returns (address);
+    function getCurrentRequestId() external view returns (uint);
+    function getRequestTarget(uint requestId) external view returns (address);
+    function getRequestArgs(uint requestId) external view returns (bytes memory);
+    function getRequestStartTimestamp(uint requestId) external view returns (uint);
+    function getRequestDuration(uint requestId) external view returns (uint);
+    function requestHasBeenExecuted(uint requestId) external view returns (bool);
+    function claim() external;
+    function request(address to, bytes memory args) external returns (uint);
+    function execute(uint requestId) external returns (bool, bytes memory);
+}
+
+
+
+/** 
+ *  SourceUnit: c:\Users\marco\OneDrive\Documents\GitHub\eth-core\diamonds\facets\FacetConsole.sol
+*/
+            
+////// SPDX-License-Identifier-FLATTEN-SUPPRESS-WARNING: MIT
+// OpenZeppelin Contracts v4.4.1 (utils/Context.sol)
+
+pragma solidity ^0.8.19;
+
+/**
+ * @dev Provides information about the current execution context, including the
+ * sender of the transaction and its data. While these are generally available
+ * via msg.sender and msg.data, they should not be accessed in such a direct
+ * manner, since when dealing with meta-transactions the account sending and
+ * paying for execution may not be the actual sender (as far as an application
+ * is concerned).
+ *
+ * This contract is only required for intermediate, library-like contracts.
+ */
+abstract contract Context {
+    function _msgSender() internal view virtual returns (address) {
+        return msg.sender;
+    }
+
+    function _msgData() internal view virtual returns (bytes calldata) {
+        return msg.data;
+    }
+}
+
+
+
+
+/** 
+ *  SourceUnit: c:\Users\marco\OneDrive\Documents\GitHub\eth-core\diamonds\facets\FacetConsole.sol
+*/
+            
+////// SPDX-License-Identifier-FLATTEN-SUPPRESS-WARNING: MIT
+pragma solidity ^0.8.0;
+
+contract SlotConsole {
+    bytes32 internal constant _CONSOLE = keccak256('slot.console');
+
+    struct StorageConsole {
+        address operator;
+        uint delaySeconds;
+        Request[] requests;
+    }
+
+    struct Request {
+        address to;
+        bytes args;
+        uint startTimestamp;
+        uint duration;
+        bool executed;
+    }
+
+    function console() internal pure virtual returns (StorageConsole storage s) {
+        bytes32 location = _CONSOLE;
+        assembly {
+            s.slot := location
+        }
+    }
+}
+
+/** 
+ *  SourceUnit: c:\Users\marco\OneDrive\Documents\GitHub\eth-core\diamonds\facets\FacetConsole.sol
+*/
+
+////// SPDX-License-Identifier-FLATTEN-SUPPRESS-WARNING: MIT
+pragma solidity ^0.8.0;
+////import 'diamonds/facets/slots/SlotConsole.sol';
+////import 'imports/openzeppelin/utils/Context.sol';
+////import 'diamonds/facets/interfaces/IFacetConsole.sol';
 
 contract FacetConsole is SlotConsole, Context {
     event OperatorChanged(address indexed oldOperator, address indexed newOperator);
