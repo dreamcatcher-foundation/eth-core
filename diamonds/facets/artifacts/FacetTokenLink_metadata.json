@@ -1,0 +1,254 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "oldToken",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "newToken",
+						"type": "address"
+					}
+				],
+				"name": "TokenLinkEstablished",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "____burn",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newToken",
+						"type": "address"
+					}
+				],
+				"name": "____linkToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "____mint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "balanceOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "decimals",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getLinkedToken",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "name",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "symbol",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/FacetTokenLink.sol": "FacetTokenLink"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/FacetTokenLink.sol": {
+			"keccak256": "0xa876289612c6de24972701b82a4d2a377d611da3b465e8e219291357ee6bf7d0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5f55d96f179d6acc6a10a90c6de522f5784a3e2d7c0b92566ad300c3a70090bd",
+				"dweb:/ipfs/QmRL2NZciVSkxKtNCKfa3YrxUjTRXFjicy7f84J7h3NZJg"
+			]
+		},
+		"diamonds/facets/slots/SlotTokenLink.sol": {
+			"keccak256": "0x36eda44932f47a74e35581220ea20f114bbcc90a2e3cf4d3e9dd0757198401a1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e3e3985e9b75cebc17b509ea460f9790d1ec5a1959f82938e79551d022df822a",
+				"dweb:/ipfs/QmZvyFhJisqHioK9cQKQJKzCz6FHrLt8FGmN9sapeg16TN"
+			]
+		},
+		"imports/openzeppelin/token/ERC20/IERC20.sol": {
+			"keccak256": "0x25c33569824f7653c064ccac6b9c63ba19833c7818debaa3f7f7737f5175d7d7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6c002fe819fd2da94ef4cbcddcd4a62ba42454b000d2321314bfff73353792e7",
+				"dweb:/ipfs/QmadL9VMe3jTyf5sg8g8Y9Q4ESsyos42rZPnvJaKuhUacK"
+			]
+		},
+		"imports/openzeppelin/token/ERC20/extensions/IERC20Metadata.sol": {
+			"keccak256": "0x2837661e72b15493671ff5e5099b565b626c53f4d90f347211dd78924aca24ca",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://34ced2145df7d08fbb3fba9471faf5a1609fc3def76d004c658f480e5cebb013",
+				"dweb:/ipfs/QmSJ42tRU39HdpJSLXCinUtzzxnxBFncnCbfK6juqqep7U"
+			]
+		},
+		"imports/openzeppelin/token/ERC20/extensions/IERC20Permit.sol": {
+			"keccak256": "0xec63854014a5b4f2b3290ab9103a21bdf902a508d0f41a8573fea49e98bf571a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://bc5b5dc12fbc4002f282eaa7a5f06d8310ed62c1c77c5770f6283e058454c39a",
+				"dweb:/ipfs/Qme9rE2wS3yBuyJq9GgbmzbsBQsW2M2sVFqYYLw7bosGrv"
+			]
+		},
+		"imports/openzeppelin/utils/Context.sol": {
+			"keccak256": "0x639f180f9bedd48998c68f1bf4f8d01b37a4573bc496acb04a55308c6de0045c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4ff2313c66e4e14d167aae923b38509ec68dcaa281d2314f45b527139d33d4af",
+				"dweb:/ipfs/QmU7aik96EmKeG8feBbQZ8BufngtYB6guGTkZoX5umP73i"
+			]
+		},
+		"units/interfaces/IOwnableToken.sol": {
+			"keccak256": "0xbaf2a0021218a444e12ebe1e5476b50132fff5c0f29747aca5e4979d17fc5590",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://56bd8c29af83345aa2c5791d961bcd3be8f7f851a33872a1a545165c9da28621",
+				"dweb:/ipfs/QmNtj9WgnMkt7E2HxBBjgpNVYJZy8chVZBajgLpqSLSwrZ"
+			]
+		},
+		"units/interfaces/IToken.sol": {
+			"keccak256": "0xb44f8b30fb2321aed6ca019eae8176275691a9427a3d21a1aa5ceed68334067d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://026da09e63f32e761ee5c76b643c05746755196b6069a3b55653b6b1e9b6543a",
+				"dweb:/ipfs/QmUmvz2QxYfXSDtzFGJkKKaKDeSJBZ3f7dkcaEkmH2xjWB"
+			]
+		}
+	},
+	"version": 1
+}

@@ -199,19 +199,27 @@
 	},
 	"sources": {
 		"diamonds/facets/FacetChainlinkOracle.sol": {
-			"keccak256": "0xb41b6efaf4fb87b0bdd01931e7f4142092e7480d99b3ffcca13b0898a1331984",
+			"keccak256": "0xa39b8c7faea8788abba05c03e171c336d01925a4708a516069934c2db275c489",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://19032891f4dbe811395208672b4cfd55fca5fb5201a4d0c323973ab69937bcf4",
-				"dweb:/ipfs/Qmewk326ARBrS1GhcbgXb5DrqFeaxgpT9hAZngmUTeNarU"
+				"bzz-raw://e443dc7075a875eb2464e073d58cbacd417fb039d08fb62d617809d70c54d49d",
+				"dweb:/ipfs/QmSmZ5BYRWs7Cy9HkZEgPgicWdbNDrPNuZMXfi3Dunwucu"
 			]
 		},
 		"diamonds/facets/FacetChainlinkOracleReader.sol": {
-			"keccak256": "0x460296bcdf19264a36c63843f3fd11cf1cce8b996035e8a8ff6374f2e6408ddf",
+			"keccak256": "0xdbb65abd57560c572da0d2027113c05fb15b4e8447bd17a1e56090f8d2ef41a1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://615947fcbb8ad1a3ac2e50046372ba16e20f009588d98e5b58d60694b7f940ca",
-				"dweb:/ipfs/QmPrBRvmaSFhKLE7sJekkrWX4gU93S6HdWWhoCg6xJyrao"
+				"bzz-raw://7aad7758c202af0dc17ca91cd7ce20b6f2c09ffe226cab6013171fec79e4e041",
+				"dweb:/ipfs/QmYDabhsnYCrT79Mf84SLcFTuXU3prdtZJBwGcuaTqGgVD"
+			]
+		},
+		"diamonds/facets/interfaces/IFacetChainlinkOracle.sol": {
+			"keccak256": "0xb66a59f87f5544ee2efd7e1e042c5e1f7b6b787e609c2dc406066b9186f46ed5",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5333b5833c26fe8ca1b925bdc9171c50aeaef43546ba04942f4874f62e6cb58b",
+				"dweb:/ipfs/QmVV36mN4XSTAWHze16j7PjyCLxWhv1j1wrvK4oaW6KRNw"
 			]
 		},
 		"diamonds/facets/slots/SlotChainlinkOracle.sol": {
@@ -228,6 +236,14 @@
 			"urls": [
 				"bzz-raw://ddd812901e00003d8ab897eccfddacbc137586642e2e3fb711de9d6ebd7c071d",
 				"dweb:/ipfs/Qmba6wmmLcDvpR6w1WoAsEzuGvXzcuezYwDZBsjoovgt1p"
+			]
+		},
+		"imports/chainlink/IEACAggregatorProxy.sol": {
+			"keccak256": "0xf3b0cebf18d88d5582cab1c02a42f15398f6ba89b5879b06e3d907452b5053b4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://368cfbad0474eedbd3e18a2b6284cb4f56ee2396f2253f613be08b8517bf79d0",
+				"dweb:/ipfs/QmQVrbmDPwofaWXabw254mQByA1mqtF6WiTPrLk46xka39"
 			]
 		},
 		"imports/openzeppelin/utils/Context.sol": {

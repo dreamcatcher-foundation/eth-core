@@ -1,0 +1,69 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"diamonds/facets/FacetConsole.sol": "TestArgument"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"diamonds/facets/FacetConsole.sol": {
+			"keccak256": "0xa1fcbc7c62a99eac4b980ad4ed2f24f21ee6e2a9da2a2f76d66292b8a5df1ffe",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://14e7718d2104c8d8270cb985bc0e8eb847928f4fb13fc642152203aa336db7b6",
+				"dweb:/ipfs/QmfA8eW92LaP2jS7wiVxcmC2e98KQz4LkW9L6B7SfmwHyM"
+			]
+		},
+		"diamonds/facets/interfaces/IFacetConsole.sol": {
+			"keccak256": "0xc33e5d9317e4ee07e3f46036ce83d96fdb1894251557aec45234ec3c6421b27f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://36bf721cd14b2a04d89d99a49c738f90fc4a20ab7cd485132186e24248fbbe29",
+				"dweb:/ipfs/QmZJuGF7Jh2vUWyMqVo2wvTS2JfEvPcpUL8FN2VzT8LB5b"
+			]
+		},
+		"diamonds/facets/slots/SlotConsole.sol": {
+			"keccak256": "0x8e1e72ccc26aa31c282a6acb19d092ce88a234facdb6c77d5b88dd63164b2094",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c823289073c2162f397f5b4dc9d808637ac5d04578ae4ae03d2454fdb3ff9cee",
+				"dweb:/ipfs/QmX84qBQ5WMPWk6ecdkcJ3goQS4xFo5RzwrawthwbDb8YU"
+			]
+		},
+		"imports/openzeppelin/utils/Context.sol": {
+			"keccak256": "0x639f180f9bedd48998c68f1bf4f8d01b37a4573bc496acb04a55308c6de0045c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4ff2313c66e4e14d167aae923b38509ec68dcaa281d2314f45b527139d33d4af",
+				"dweb:/ipfs/QmU7aik96EmKeG8feBbQZ8BufngtYB6guGTkZoX5umP73i"
+			]
+		}
+	},
+	"version": 1
+}

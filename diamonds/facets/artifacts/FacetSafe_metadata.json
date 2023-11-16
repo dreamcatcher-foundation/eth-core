@@ -9,19 +9,19 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "from",
 						"type": "address"
 					},
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "tokenIn",
 						"type": "address"
 					},
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "uint256",
 						"name": "amountIn",
 						"type": "uint256"
@@ -34,7 +34,7 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "tokenIn",
 						"type": "address"
@@ -47,7 +47,7 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "tokenOut",
 						"type": "address"
@@ -60,7 +60,7 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "tokenIn",
 						"type": "address"
@@ -73,7 +73,7 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "tokenOut",
 						"type": "address"
@@ -86,19 +86,19 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "to",
 						"type": "address"
 					},
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "tokenOut",
 						"type": "address"
 					},
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "uint256",
 						"name": "amountOut",
 						"type": "uint256"
@@ -198,31 +198,6 @@
 				"name": "____withdraw",
 				"outputs": [],
 				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "tokenIn",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amountIn",
-						"type": "uint256"
-					}
-				],
-				"name": "deposit",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "deposit",
-				"outputs": [],
-				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -354,15 +329,8 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {
-				"deposit()": {
-					"notice": "for eth"
-				},
-				"deposit(address,uint256)": {
-					"notice": "for erc20"
-				}
-			},
-			"notice": "simple safe to move funds in and out of contract",
+			"methods": {},
+			"notice": "rework",
 			"version": 1
 		}
 	},
@@ -383,11 +351,11 @@
 	},
 	"sources": {
 		"diamonds/facets/FacetSafe.sol": {
-			"keccak256": "0x9db4ad41622f526aee1a0c15c6064998d69132699b0ccb18690b2147aa617d15",
+			"keccak256": "0xe98821defb40adf29ff65f34b1937b13653a116c2c279bcd97ace7dcbeb9a3b0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://42c8c5cc122c549dca8a944e6e59e1b1bc541256835e2f2b380ab653f23ef7e5",
-				"dweb:/ipfs/QmSJonmntjGWDZ9L2eUehPSv8YwymDaECDnYASWG1XDWkK"
+				"bzz-raw://d25c5f003f160a365d86f042f6092139265a5fb3f0452dde03f7b88f3406d2e6",
+				"dweb:/ipfs/QmR7meBZfBrn8ntTKcmAPXeGZHMFY92hfmtw5cnajCURkN"
 			]
 		},
 		"diamonds/facets/slots/SlotSafe.sol": {
@@ -428,6 +396,14 @@
 			"urls": [
 				"bzz-raw://81c61c0dd40890f6a4b1fb792bc5b5b61e821fcafa2aae6c7eda6d4f1ece2593",
 				"dweb:/ipfs/QmRLMrq6BiPS9wGu7ZC174SFYWCu6cxbU3agDw2XgJeDpT"
+			]
+		},
+		"libraries/Uint.sol": {
+			"keccak256": "0xf697410bc680f6e9ad4d07f831c1285e8091b201664cab026159563a57443427",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c51cffa70db18ebc1f79c5706da2cbcb0ebfc4b2c17aa52e9cc3b648a99cb37f",
+				"dweb:/ipfs/QmRdYT8U1GoQhjDz3x9QGtLz6eYhfP69HHwcvVbYmuApm8"
 			]
 		}
 	},

@@ -312,11 +312,19 @@
 	},
 	"sources": {
 		"diamonds/facets/FacetConsole.sol": {
-			"keccak256": "0x4330ac83f63186078a599a1c4ad4b3985c32ef159cb5fef14587575581b4b88c",
+			"keccak256": "0x7ba26791885ce117e02f9e4bdd6e4039143719cb7ea44aa541bfca6ee9532c3a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://88d80746b277bba864c543a8ca9486e3e481ac2b4b2f1f70d4d0a96fd4441e92",
-				"dweb:/ipfs/QmYiJ1PWfL32JzRzWQkFwmRFv8vJQULcwjaC7mWDNerbSg"
+				"bzz-raw://736cf117f2176c42e39023f20d20c0075f6eed6945ef96702f1ea41680a91f85",
+				"dweb:/ipfs/QmPx9v63Qdw3grQbdiRd5KcZtPEsTu7RKxXPmc5SeFjRay"
+			]
+		},
+		"diamonds/facets/interfaces/IFacetConsole.sol": {
+			"keccak256": "0xc33e5d9317e4ee07e3f46036ce83d96fdb1894251557aec45234ec3c6421b27f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://36bf721cd14b2a04d89d99a49c738f90fc4a20ab7cd485132186e24248fbbe29",
+				"dweb:/ipfs/QmZJuGF7Jh2vUWyMqVo2wvTS2JfEvPcpUL8FN2VzT8LB5b"
 			]
 		},
 		"diamonds/facets/slots/SlotConsole.sol": {
