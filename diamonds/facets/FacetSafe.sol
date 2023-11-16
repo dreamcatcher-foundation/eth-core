@@ -6,6 +6,29 @@ import 'imports/openzeppelin/utils/structs/EnumerableSet.sol';
 import 'imports/openzeppelin/token/ERC20/extensions/IERC20Metadata.sol';
 import 'libraries/Uint.sol';
 
+/// rework
+contract FacetSafe is SlotSafe, Context {
+    using EnumerableSet for EnumerableSet.AddressSet;
+    using Uint for uint;
+
+    event Deposit(address from, address tokenIn, uint amountIn);
+    event Withdraw(address to, address tokenOut, uint amountOut);
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 interface IFacetSafe {
     event Deposit(address indexed from, address indexed tokenIn, uint indexed amountIn);
     event Withdraw(address indexed to, address indexed tokenOut, uint indexed amountOut);
